@@ -1,5 +1,12 @@
 import { User, UserModel } from '../models/user';
 
+/**
+ * UserService manages user data operations.
+ * 
+ * Note: This service uses in-memory storage for demonstration purposes.
+ * In a production application, you should use a persistent database.
+ * Data will be lost on server restart and won't scale across multiple instances.
+ */
 export class UserService {
   private users: UserModel[] = [];
   private nextId: number = 1;

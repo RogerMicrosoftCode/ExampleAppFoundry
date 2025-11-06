@@ -89,5 +89,47 @@ describe('User Controller', () => {
 
       expect(response.body).toHaveProperty('error', 'Name and email are required');
     });
+
+    it('should return 400 for invalid email format', async () => {
+      const invalidUser = {
+        name: 'Test User',
+        email: 'invalid-email'
+      };
+
+      const response = await request(app.getApp())
+        .post('/api/users')
+        .send(invalidUser)
+        .expect(400);
+
+      expect(response.body).toHaveProperty('error', 'Invalid email format');
+    });
+
+    it('should return 400 when name is not a string', async () => {
+      const invalidUser = {
+        name: 123,
+        email: 'test@example.com'
+      };
+
+      const response = await request(app.getApp())
+        .post('/api/users')
+        .send(invalidUser)
+        .expect(400);
+
+      expect(response.body).toHaveProperty('error', 'Name and email must be strings');
+    });
+
+    it('should return 400 when email is not a string', async () => {
+      const invalidUser = {
+        name: 'Test User',
+        email: 123
+      };
+
+      const response = await request(app.getApp())
+        .post('/api/users')
+        .send(invalidUser)
+        .expect(400);
+
+      expect(response.body).toHaveProperty('error', 'Name and email must be strings');
+    });
   });
 });
