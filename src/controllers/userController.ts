@@ -5,8 +5,33 @@ const router = Router();
 // Note: In a production app, consider using dependency injection
 const userService = new UserService();
 
-// Simple email validation regex
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/**
+ * Validates email format using a simple, ReDoS-safe approach
+ * @param email - The email string to validate
+ * @returns true if valid, false otherwise
+ */
+function isValidEmail(email: string): boolean {
+  // Basic validation: check for @ symbol and basic structure
+  if (typeof email !== 'string' || email.length > 254) {
+    return false;
+  }
+  
+  const atIndex = email.indexOf('@');
+  if (atIndex === -1 || atIndex === 0 || atIndex === email.length - 1) {
+    return false;
+  }
+  
+  const localPart = email.substring(0, atIndex);
+  const domainPart = email.substring(atIndex + 1);
+  
+  // Basic checks: no spaces, domain has a dot, etc.
+  if (localPart.includes(' ') || domainPart.includes(' ')) {
+    return false;
+  }
+  
+  const dotIndex = domainPart.indexOf('.');
+  return dotIndex > 0 && dotIndex < domainPart.length - 1;
+}
 
 router.get('/', (_req: Request, res: Response) => {
   const users = userService.getAllUsers();
@@ -47,7 +72,7 @@ router.post('/', (req: Request, res: Response) => {
   }
   
   // Validate email format
-  if (!emailRegex.test(email)) {
+  if (!isValidEmail(email)) {
     res.status(400).json({ error: 'Invalid email format' });
     return;
   }
