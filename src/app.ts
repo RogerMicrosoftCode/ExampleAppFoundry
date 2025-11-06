@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import { healthController } from './controllers/healthController';
 import { userController } from './controllers/userController';
+import { Logger } from './utils/logger';
 
 export class App {
   public app: Application;
@@ -25,7 +26,7 @@ export class App {
 
   public listen(): void {
     this.app.listen(this.port, () => {
-      console.log(`ExampleAppFoundry server listening on port ${this.port}`);
+      Logger.info(`ExampleAppFoundry server listening on port ${this.port}`);
     });
   }
 

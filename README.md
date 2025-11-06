@@ -26,7 +26,7 @@ ExampleAppFoundry/
 ├── coverage/             # Test coverage reports (generated)
 ├── jest.config.js        # Jest configuration
 ├── tsconfig.json         # TypeScript configuration
-├── .eslintrc.json        # ESLint configuration
+├── eslint.config.js      # ESLint configuration
 └── package.json          # Project dependencies and scripts
 ```
 

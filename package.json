@@ -14,17 +14,25 @@
     "lint:fix": "eslint src --ext .ts --fix",
     "clean": "rm -rf dist"
   },
-  "keywords": ["example", "foundry", "typescript", "express", "rest-api"],
+  "keywords": [
+    "example",
+    "foundry",
+    "typescript",
+    "express",
+    "rest-api"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.0",
+    "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
     "eslint": "^9.39.1",
     "jest": "^30.2.0",
+    "supertest": "^7.1.4",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

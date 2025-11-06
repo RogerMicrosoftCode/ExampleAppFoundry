@@ -11,6 +11,12 @@ router.get('/', (_req: Request, res: Response) => {
 
 router.get('/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id, 10);
+  
+  if (isNaN(id)) {
+    res.status(400).json({ error: 'Invalid user ID' });
+    return;
+  }
+  
   const user = userService.getUserById(id);
   
   if (!user) {
