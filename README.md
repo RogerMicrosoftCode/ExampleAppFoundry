@@ -14,7 +14,7 @@ Azure Bot Service (Bot Framework Connector)
 Bot Application (Bot Framework SDK + LangChain)
            ↓
 Azure AI Foundry (AI Studio + Projects + Deployments)
-    ├── Azure OpenAI Models (GPT-4)
+    ├── Azure OpenAI Models (GPT-4.1)
     ├── Content Safety (Moderation)
     └── AI Search (Optional RAG)
 ```
@@ -179,7 +179,7 @@ Ver la documentación completa en `BotTeamsAFOIADemo.md`
 | `AZURE_AI_PROJECT_NAME` | Nombre del proyecto AI Foundry | `teams-bot-project` |
 | `AZURE_OPENAI_ENDPOINT` | Endpoint de Azure OpenAI | `https://....openai.azure.com/` |
 | `AZURE_OPENAI_API_KEY` | API Key de OpenAI | `tu-clave-api` |
-| `AZURE_OPENAI_DEPLOYMENT_NAME` | Nombre del deployment | `gpt-4-teams-foundry` |
+| `AZURE_OPENAI_DEPLOYMENT_NAME` | Nombre del deployment | `gpt-41-turbo` |
 | `MICROSOFT_APP_ID` | Bot Application ID | `xxxxxxxx-xxxx-xxxx...` |
 | `MICROSOFT_APP_PASSWORD` | Bot Client Secret | `tu-client-secret` |
 

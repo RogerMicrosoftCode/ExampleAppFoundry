@@ -269,7 +269,7 @@ class AdaptiveCards:
                     "facts": [
                         {"title": "Versión:", "value": "1.0.0"},
                         {"title": "Plataforma:", "value": "Azure AI Foundry"},
-                        {"title": "Tecnologías:", "value": "GPT-4, LangChain, Bot Framework"},
+                        {"title": "Tecnologías:", "value": "GPT-4.1, LangChain, Bot Framework"},
                         {"title": "Seguridad:", "value": "Content Safety + RBAC"}
                     ],
                     "spacing": "Medium"

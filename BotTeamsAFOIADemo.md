@@ -31,7 +31,7 @@ Esta guía proporciona un ejemplo completo de cómo crear una aplicación de cha
 │                                                       │
 │  ┌─────────────────────────────────────────┐        │
 │  │   Azure OpenAI Models                    │        │
-│  │   • GPT-4 / GPT-4 Turbo                 │        │
+│  │   • GPT-4.1 Turbo                       │        │
 │  │   • GPT-3.5 Turbo                       │        │
 │  └─────────────────────────────────────────┘        │
 │                                                       │
@@ -117,9 +117,9 @@ az ml workspace create \
 3. Haz clic en **+ Create deployment**
 4. Configurar el modelo:
    ```
-   Select model: gpt-4 (o gpt-4-turbo-preview)
-   Deployment name: gpt-4-teams-foundry
-   Model version: Última disponible (ej: 0125-preview)
+   Select model: gpt-41-turbo
+   Deployment name: gpt-41-turbo
+   Model version: Última disponible
    Deployment type: Standard
    Tokens per Minute Rate Limit: 10K-120K
    Content filter: Default
@@ -322,7 +322,7 @@ AZURE_AI_PROJECT_ENDPOINT=https://tu-proyecto.api.azureml.ms
 # Azure OpenAI Connection (desde AI Foundry)
 AZURE_OPENAI_ENDPOINT=https://tu-openai.openai.azure.com/
 AZURE_OPENAI_API_KEY=tu-clave-api-aqui
-AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4-teams-foundry
+AZURE_OPENAI_DEPLOYMENT_NAME=gpt-41-turbo
 AZURE_OPENAI_API_VERSION=2024-02-15-preview
 
 # ===========================================
@@ -1450,7 +1450,7 @@ class AdaptiveCards:
                     "facts": [
                         {"title": "Versión:", "value": "1.0.0"},
                         {"title": "Plataforma:", "value": "Azure AI Foundry"},
-                        {"title": "Tecnologías:", "value": "GPT-4, LangChain, Bot Framework"},
+                        {"title": "Tecnologías:", "value": "GPT-4.1, LangChain, Bot Framework"},
                         {"title": "Seguridad:", "value": "Content Safety + RBAC"}
                     ],
                     "spacing": "Medium"

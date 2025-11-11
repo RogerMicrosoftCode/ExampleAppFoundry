@@ -39,7 +39,7 @@ El script automáticamente:
 1. **Desplegar modelo en Azure AI Studio**:
    - Ve a https://ai.azure.com
    - Selecciona tu proyecto
-   - Crea un deployment del modelo (ej: GPT-4)
+   - Crea un deployment del modelo GPT-4.1 (gpt-41-turbo)
 
 2. **Verificar configuración**:
    ```bash

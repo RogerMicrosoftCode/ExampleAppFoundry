@@ -137,7 +137,7 @@ Creando recurso Azure OpenAI...
 
 Obteniendo credenciales de Azure OpenAI...
 
-Nombre del deployment de modelo OpenAI [gpt-4-teams-foundry]: 
+Nombre del deployment de modelo OpenAI [gpt-41-turbo]: 
 ```
 
 ### 6. Azure Bot Service
@@ -196,14 +196,14 @@ System Prompt [Eres un asistente inteligente...]:
   AI Hub: ai-foundry-hub
   AI Project: teams-bot-project
   OpenAI Resource: openai-teams-bot-project
-  OpenAI Deployment: gpt-4-teams-foundry
+  OpenAI Deployment: gpt-41-turbo
   Bot Name: teams-ai-foundry-bot
   Bot App ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
 ⚠️  IMPORTANTE - Próximos pasos:
 
 1. Ve a Azure AI Studio: https://ai.azure.com
-   - Despliega el modelo 'gpt-4-teams-foundry' si aún no existe
+   - Despliega el modelo GPT-4.1 'gpt-41-turbo' si aún no existe
 
 2. Verifica tu archivo .env:
    cat .env
@@ -279,7 +279,7 @@ No, el script NO despliega el modelo automáticamente. Debes:
 1. Ir a Azure AI Studio (https://ai.azure.com)
 2. Navegar a tu proyecto
 3. Ir a "Deployments"
-4. Crear un deployment con el nombre que especificaste (ej: `gpt-4-teams-foundry`)
+4. Crear un deployment del modelo GPT-4.1 con el nombre que especificaste (ej: `gpt-41-turbo`)
 
 ## 🐛 Solución de Problemas
 

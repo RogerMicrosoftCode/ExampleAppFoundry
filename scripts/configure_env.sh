@@ -191,8 +191,8 @@ OPENAI_API_KEY=$(az cognitiveservices account keys list \
 
 # Preguntar por deployment de modelo
 echo ""
-read -p "Nombre del deployment de modelo OpenAI [gpt-4-teams-foundry]: " OPENAI_DEPLOYMENT
-OPENAI_DEPLOYMENT=${OPENAI_DEPLOYMENT:-gpt-4-teams-foundry}
+read -p "Nombre del deployment de modelo OpenAI [gpt-41-turbo]: " OPENAI_DEPLOYMENT
+OPENAI_DEPLOYMENT=${OPENAI_DEPLOYMENT:-gpt-41-turbo}
 
 echo -e "${YELLOW}Nota: Asegúrate de crear el deployment '$OPENAI_DEPLOYMENT' en Azure AI Studio${NC}"
 echo -e "${YELLOW}URL: https://ai.azure.com${NC}"

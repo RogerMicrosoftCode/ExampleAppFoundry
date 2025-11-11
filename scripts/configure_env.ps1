@@ -209,8 +209,8 @@ $OPENAI_API_KEY = az cognitiveservices account keys list `
 
 # Preguntar por deployment de modelo
 Write-Output ""
-$deployInput = Read-Host "Nombre del deployment de modelo OpenAI [gpt-4-teams-foundry]"
-$OPENAI_DEPLOYMENT = if ([string]::IsNullOrWhiteSpace($deployInput)) { "gpt-4-teams-foundry" } else { $deployInput }
+$deployInput = Read-Host "Nombre del deployment de modelo OpenAI [gpt-41-turbo]"
+$OPENAI_DEPLOYMENT = if ([string]::IsNullOrWhiteSpace($deployInput)) { "gpt-41-turbo" } else { $deployInput }
 
 Write-Warning2 "Nota: Asegúrate de crear el deployment '$OPENAI_DEPLOYMENT' en Azure AI Studio"
 Write-Warning2 "URL: https://ai.azure.com"

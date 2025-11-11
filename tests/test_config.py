@@ -16,7 +16,7 @@ class TestAzureAIFoundryConfig:
         "AZURE_AI_PROJECT_NAME": "test-project",
         "AZURE_OPENAI_ENDPOINT": "https://test.openai.azure.com/",
         "AZURE_OPENAI_API_KEY": "test-key",
-        "AZURE_OPENAI_DEPLOYMENT_NAME": "gpt-4",
+        "AZURE_OPENAI_DEPLOYMENT_NAME": "gpt-41-turbo",
     })
     def test_validate_success(self):
         """Test validación exitosa"""
