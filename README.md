@@ -86,6 +86,10 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+> **⚠️ Nota sobre azure-ai-ml:** Este paquete está comentado en `requirements.txt` debido a problemas de compatibilidad. 
+> No es necesario para ejecutar el bot. Si necesitas gestionar recursos de Azure AI Foundry programáticamente, 
+> consulta [`docs/AZURE_AI_ML_SETUP.md`](docs/AZURE_AI_ML_SETUP.md) para alternativas recomendadas.
+
 ### 4. Configurar variables de entorno
 
 #### Opción A: Configuración Automática (Recomendado) 🆕
@@ -263,6 +267,13 @@ Verifica en Azure AI Studio que el deployment existe y está activo.
 3. Verificar configuración en `.env`
 
 ## 📚 Recursos
+## 📚 Documentación Adicional
+
+- **[Configuración de Azure AI ML SDK](docs/AZURE_AI_ML_SETUP.md)** - Alternativas para gestionar Azure AI Foundry sin azure-ai-ml
+- **[Configuración Preset](README_PRESET.md)** - Uso del script de configuración rápida con valores preestablecidos
+- **[Despliegue Completo](README_DEPLOY_FULL.md)** - Guía para desplegar toda la infraestructura desde cero
+
+## 🔗 Referencias
 
 - [Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/)
 - [Bot Framework](https://docs.microsoft.com/bot-framework/)

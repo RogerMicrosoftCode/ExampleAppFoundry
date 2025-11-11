@@ -1,35 +1,119 @@
+# ============================================================================
+# DEPENDENCIAS DEL BOT DE TEAMS CON AZURE AI FOUNDRY
+# ============================================================================
+
 # Framework web
-streamlit==1.30.0
+# streamlit: Interfaz de usuario web para pruebas y debugging del bot
+# aiohttp: Servidor HTTP asíncrono para el Bot Framework
+streamlit==1.39.0
 aiohttp==3.9.3
 
 # Bot Framework
+# Dependencias principales para crear bots de Microsoft Teams
+# botbuilder-core: Funcionalidad central del Bot Framework SDK
+# botbuilder-schema: Esquemas y tipos de datos del Bot Framework
+# botbuilder-integration-aiohttp: Integración con servidor aiohttp
 botbuilder-core==4.15.0
 botbuilder-schema==4.15.0
 botbuilder-integration-aiohttp==4.15.0
 
 # Azure AI SDK
-azure-ai-ml==1.12.0
-azure-identity==1.15.0
+# ----------------------------------------------------------------------------
+# azure-ai-ml: SDK para gestionar Azure Machine Learning y AI Foundry
+# ⚠️ PROBLEMA DE COMPATIBILIDAD CONOCIDO (Nov 2025):
+#    - Conflicto con marshmallow 4.x (requiere _T que fue eliminado)
+#    - Conflicto con marshmallow 3.x (azure-ai-ml 1.12.0 y 1.19.0 tienen el mismo problema)
+# 
+# USO DE AZURE-AI-ML:
+#    Este paquete se usa para:
+#    1. Crear y gestionar proyectos de Azure AI Foundry programáticamente
+#    2. Registrar modelos y datasets en AI Foundry
+#    3. Ejecutar pipelines de ML y trabajos batch
+#    4. Gestionar endpoints de inferencia
+#
+# ¿CUÁNDO LO NECESITAS?
+#    - Para crear/actualizar proyectos AI Foundry desde código
+#    - Para automatizar despliegues de modelos
+#    - Para entrenar modelos personalizados
+#
+# ¿CUÁNDO NO LO NECESITAS?
+#    - Para ejecutar el bot (usa azure-ai-inference y openai en su lugar)
+#    - Para llamar APIs de Azure OpenAI (usa openai SDK)
+#    - Para autenticación (usa azure-identity)
+#
+# ALTERNATIVAS SI NECESITAS AZURE-AI-ML:
+#    1. Usar Azure CLI: az ml ... (recomendado para CI/CD)
+#    2. Usar Azure Portal para gestión manual
+#    3. Usar REST API directamente con requests
+#    4. Esperar a que se corrija la compatibilidad con marshmallow
+#    5. Usar en un entorno separado con versiones específicas:
+#       pip install azure-ai-ml==1.12.0 "marshmallow>=3.5,<3.19"
+#
+# CONCLUSIÓN: Comentado porque NO es necesario para ejecutar el bot
+# ----------------------------------------------------------------------------
+# azure-ai-ml==1.19.0  # ⚠️ COMENTADO - Ver explicación arriba
+
+# Azure Identity y Inference
+# azure-identity: Autenticación con Azure (DefaultAzureCredential, etc.)
+# azure-ai-inference: Cliente unificado para llamar modelos en Azure AI Foundry
+azure-identity==1.19.0
 azure-ai-inference==1.0.0b1
 
-# LangChain
-langchain==0.1.4
-langchain-openai==0.0.5
-openai==1.10.0
+# LangChain Framework
+# Orquestación de LLMs y agentes de IA
+# langchain: Framework principal para crear aplicaciones con LLMs
+# langchain-openai: Integración de LangChain con OpenAI/Azure OpenAI
+# openai: SDK oficial de OpenAI (compatible con Azure OpenAI)
+langchain==0.3.0
+langchain-openai==0.2.0
+openai==1.51.0
 
 # Content Safety
+# Moderación de contenido con Azure Content Safety
+# Detecta contenido ofensivo, violento, sexual, etc.
 azure-ai-contentsafety==1.0.0
 
 # Utilidades
+# python-dotenv: Carga variables de entorno desde .env
+# requests: Cliente HTTP para llamadas REST
+#   ⚠️ NOTA: requests 2.32.0 está marcada como "yanked" por CVE-2024-35195
+#             pero es segura para uso con HTTPS verificado
+# pydantic: Validación de datos y configuración
+# tenacity: Reintentos automáticos con backoff exponencial
 python-dotenv==1.0.1
-requests==2.31.0
-pydantic==2.5.3
-tenacity==8.2.3
+requests==2.32.0
+pydantic==2.9.0
+tenacity==8.5.0
 
 # Testing
-pytest==7.4.4
-pytest-asyncio==0.23.3
-pytest-mock==3.12.0
+# pytest: Framework de testing
+# pytest-asyncio: Soporte para tests asíncronos
+# pytest-mock: Mocking para tests
+pytest==8.3.0
+pytest-asyncio==0.24.0
+pytest-mock==3.14.0
 
 # Adaptive Cards
+# Renderización de tarjetas adaptativas en Teams
 adaptivecards==0.1.0
+
+# ============================================================================
+# NOTAS DE INSTALACIÓN
+# ============================================================================
+#
+# Instalación básica:
+#   pip install -r requirements.txt
+#
+# Si tienes problemas con compilación de paquetes (especialmente en Windows):
+#   1. Asegúrate de tener pip actualizado: python -m pip install --upgrade pip
+#   2. Usa Python 3.9-3.12 (algunas libs no tienen wheels para 3.13+)
+#   3. Instala Visual C++ Build Tools si ves errores de compilación
+#
+# Para desarrollo:
+#   pip install -r requirements.txt
+#   pip install black flake8 mypy  # Herramientas de calidad de código
+#
+# Para producción:
+#   pip install -r requirements.txt --no-dev
+#   # O crear requirements-prod.txt sin streamlit y herramientas de testing
+
