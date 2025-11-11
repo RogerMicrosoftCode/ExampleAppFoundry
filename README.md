@@ -37,6 +37,8 @@ ExampleAppFoundry/
 │   ├── cards.py                 # Adaptive Cards
 │   └── content_safety.py        # Integración Content Safety
 ├── scripts/                     # Scripts de deployment
+│   ├── configure_env.sh         # 🆕 Configurador automático de .env (Bash)
+│   ├── configure_env.ps1        # 🆕 Configurador automático de .env (PowerShell)
 │   ├── setup_azure.sh           # Setup de recursos Azure
 │   ├── deploy.sh                # Script de deployment
 │   └── local_test.sh            # Test local
@@ -85,6 +87,28 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configurar variables de entorno
+
+#### Opción A: Configuración Automática (Recomendado) 🆕
+
+**Para Linux/macOS:**
+```bash
+chmod +x scripts/configure_env.sh
+./scripts/configure_env.sh
+```
+
+**Para Windows (PowerShell):**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\scripts\configure_env.ps1
+```
+
+Este script interactivo:
+- ✅ Hace login en tu suscripción de Azure
+- ✅ Crea o selecciona recursos existentes (Resource Group, AI Hub, AI Project, Bot)
+- ✅ Obtiene automáticamente todas las credenciales necesarias
+- ✅ Genera el archivo `.env` completamente configurado
+
+#### Opción B: Configuración Manual
 
 ```bash
 cp .env.example .env
