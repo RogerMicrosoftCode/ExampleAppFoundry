@@ -1,0 +1,50 @@
+# Multi-stage build para el bot
+FROM python:3.11-slim as builder
+
+WORKDIR /app
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar e instalar dependencias
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Instalar curl para healthcheck
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar dependencias instaladas
+COPY --from=builder /root/.local /root/.local
+
+# Copiar código
+COPY app/ ./app/
+COPY bot/ ./bot/
+
+# Actualizar PATH
+ENV PATH=/root/.local/bin:$PATH
+
+# Crear usuario no-root
+RUN useradd -m -u 1000 botuser && \
+    chown -R botuser:botuser /app
+
+USER botuser
+
+# Exponer puerto
+EXPOSE 3978
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:3978/health || exit 1
+
+# Comando de inicio
+CMD ["python", "bot/bot_app.py"]

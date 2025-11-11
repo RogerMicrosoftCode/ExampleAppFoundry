@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Bot de Teams con Azure AI Foundry
+  teams-ai-foundry-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: teams-ai-foundry-bot
+    ports:
+      - "3978:3978"
+    environment:
+      # Azure AI Foundry
+      - AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
+      - AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP}
+      - AZURE_AI_PROJECT_NAME=${AZURE_AI_PROJECT_NAME}
+      - AZURE_AI_HUB_NAME=${AZURE_AI_HUB_NAME}
+      - AZURE_AI_PROJECT_ENDPOINT=${AZURE_AI_PROJECT_ENDPOINT}
+      
+      # Azure OpenAI (conectado a AI Foundry)
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_DEPLOYMENT_NAME=${AZURE_OPENAI_DEPLOYMENT_NAME}
+      - AZURE_OPENAI_API_VERSION=${AZURE_OPENAI_API_VERSION}
+      
+      # Bot Service
+      - MICROSOFT_APP_ID=${MICROSOFT_APP_ID}
+      - MICROSOFT_APP_PASSWORD=${MICROSOFT_APP_PASSWORD}
+      - BOT_PORT=3978
+      - HOST=0.0.0.0
+      
+      # Features
+      - ENABLE_CONTENT_SAFETY=${ENABLE_CONTENT_SAFETY:-true}
+      - ENABLE_AI_SEARCH=${ENABLE_AI_SEARCH:-false}
+      
+      # App Settings
+      - APP_TEMPERATURE=${APP_TEMPERATURE:-0.7}
+      - APP_MAX_TOKENS=${APP_MAX_TOKENS:-2000}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - SYSTEM_PROMPT=${SYSTEM_PROMPT}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3978/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    networks:
+      - ai-foundry-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  ai-foundry-network:
+    driver: bridge
