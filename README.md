@@ -76,7 +76,7 @@ python -m venv venv
 source venv/bin/activate
 
 # Windows
-python -m venv venv
+py -m venv venv
 venv\Scripts\activate
 ```
 
@@ -118,7 +118,7 @@ nano .env  # Editar con tus credenciales
 ### 5. Ejecutar el bot localmente
 
 ```bash
-python bot/bot_app.py
+py bot/bot_app.py
 ```
 
 El bot estará disponible en `http://localhost:3978`
