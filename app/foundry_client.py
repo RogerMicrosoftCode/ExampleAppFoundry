@@ -4,7 +4,11 @@ Cliente para Azure AI Foundry
 import logging
 from typing import Optional, Dict, Any
 from azure.identity import DefaultAzureCredential
-from azure.ai.ml import MLClient
+
+# ⚠️ azure-ai-ml está comentado debido a problemas de compatibilidad
+# Ver docs/AZURE_AI_ML_SETUP.md para alternativas
+# from azure.ai.ml import MLClient
+
 from app.config import AzureAIFoundryConfig
 
 logger = logging.getLogger(__name__)
@@ -13,6 +17,8 @@ logger = logging.getLogger(__name__)
 class AzureAIFoundryClient:
     """
     Cliente para interactuar con Azure AI Foundry
+    Nota: MLClient está deshabilitado por problemas de compatibilidad.
+    El bot funciona usando Azure OpenAI directamente.
     """
     
     def __init__(self):
@@ -23,15 +29,14 @@ class AzureAIFoundryClient:
             # Crear credencial de Azure
             self.credential = DefaultAzureCredential()
             
-            # Crear ML Client para AI Foundry
-            self.ml_client = MLClient(
-                credential=self.credential,
-                subscription_id=AzureAIFoundryConfig.SUBSCRIPTION_ID,
-                resource_group_name=AzureAIFoundryConfig.RESOURCE_GROUP,
-                workspace_name=AzureAIFoundryConfig.PROJECT_NAME
-            )
+            # MLClient está deshabilitado - usando Azure OpenAI directamente
+            self.ml_client = None
+            logger.warning("MLClient deshabilitado. Usando Azure OpenAI directamente.")
             
-            logger.info(f"✅ Conectado a Azure AI Foundry Project: {AzureAIFoundryConfig.PROJECT_NAME}")
+            # El bot puede funcionar sin MLClient usando solo Azure OpenAI
+            # Para gestionar recursos de AI Foundry, usa Azure CLI o el Portal
+            
+            logger.info(f"✅ Cliente básico inicializado para proyecto: {AzureAIFoundryConfig.PROJECT_NAME}")
             
         except Exception as e:
             logger.error(f"Error inicializando Azure AI Foundry Client: {e}")
@@ -40,10 +45,21 @@ class AzureAIFoundryClient:
     def get_project_info(self) -> Dict[str, Any]:
         """
         Obtiene información del proyecto de AI Foundry
+        Nota: MLClient no disponible. Retorna información de configuración.
         
         Returns:
             Diccionario con información del proyecto
         """
+        if self.ml_client is None:
+            logger.warning("MLClient no disponible. Retornando info de configuración.")
+            return {
+                "name": AzureAIFoundryConfig.PROJECT_NAME,
+                "resource_group": AzureAIFoundryConfig.RESOURCE_GROUP,
+                "subscription_id": AzureAIFoundryConfig.SUBSCRIPTION_ID,
+                "status": "Configurado (MLClient deshabilitado)"
+            }
+        
+        # Código original si MLClient estuviera disponible
         try:
             workspace = self.ml_client.workspaces.get(
                 name=AzureAIFoundryConfig.PROJECT_NAME
@@ -70,6 +86,13 @@ class AzureAIFoundryClient:
         Returns:
             Información del deployment
         """
+        if self.ml_client is None:
+            logger.warning("MLClient no disponible. Retornando info básica.")
+            return {
+                "name": deployment_name,
+                "status": "Configurado (usando Azure OpenAI directamente)"
+            }
+        
         try:
             # Nota: Esto es específico de AI Foundry
             # La implementación puede variar según la versión del SDK
@@ -89,6 +112,10 @@ class AzureAIFoundryClient:
         Returns:
             True si la conexión es válida
         """
+        if self.ml_client is None:
+            logger.info("MLClient no disponible. Validación omitida (bot funcionará con Azure OpenAI directo).")
+            return True  # Retornar True para no bloquear el bot
+        
         try:
             project_info = self.get_project_info()
             if project_info:

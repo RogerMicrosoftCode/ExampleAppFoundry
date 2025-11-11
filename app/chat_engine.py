@@ -12,7 +12,7 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
-from langchain.callbacks import get_openai_callback
+from langchain_community.callbacks.manager import get_openai_callback
 
 from app.config import AzureAIFoundryConfig, AppConfig
 from app.foundry_client import AzureAIFoundryClient

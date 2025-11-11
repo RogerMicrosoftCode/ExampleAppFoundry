@@ -61,11 +61,15 @@ azure-ai-inference==1.0.0b1
 
 # LangChain Framework
 # Orquestación de LLMs y agentes de IA
-# langchain: Framework principal para crear aplicaciones con LLMs
+# langchain: Framework principal para crear aplicaciones con LLMs (v0.3.x requerido)
+#   ⚠️ IMPORTANTE: El código usa APIs de LangChain 0.3.x (ConversationBufferMemory, etc.)
+#                  La versión 1.x removió estos módulos, causando incompatibilidades
 # langchain-openai: Integración de LangChain con OpenAI/Azure OpenAI
+# langchain-community: Callbacks y utilidades comunitarias (get_openai_callback, etc.)
 # openai: SDK oficial de OpenAI (compatible con Azure OpenAI)
 langchain==0.3.0
 langchain-openai==0.2.0
+langchain-community==0.4.1
 openai==1.51.0
 
 # Content Safety
