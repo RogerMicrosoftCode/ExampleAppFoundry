@@ -74,18 +74,69 @@ try {
         }
     }
 
-    # Intentar obtener desde .env, si no, desde git config local
-    $appId = if ($env:MICROSOFT_APP_ID) { 
-        $env:MICROSOFT_APP_ID 
-    } else { 
-        git config --local user.app.id 
+    # Función helper para obtener valores seguros con prioridad Key Vault
+    function Get-SecureValue {
+        param(
+            [string]$KeyVaultSecretName,
+            [string]$EnvVarName,
+            [string]$GitConfigKey,
+            [string]$DefaultValue = ""
+        )
+        
+        $value = ""
+        
+        # 1. Intentar Key Vault (si está configurado)
+        if ($env:AZURE_KEY_VAULT_NAME -and -not [string]::IsNullOrWhiteSpace($KeyVaultSecretName)) {
+            try {
+                $value = az keyvault secret show `
+                    --vault-name $env:AZURE_KEY_VAULT_NAME `
+                    --name $KeyVaultSecretName `
+                    --query value -o tsv 2>$null
+                
+                if ($value) {
+                    Write-Info "Secreto '$KeyVaultSecretName' obtenido de Key Vault"
+                    return $value
+                }
+            }
+            catch {
+                # Silencioso, intentar siguiente método
+            }
+        }
+        
+        # 2. Variable de entorno
+        if ([string]::IsNullOrWhiteSpace($value) -and $env:$EnvVarName) {
+            $value = $env:$EnvVarName
+            Write-Info "Usando variable de entorno: $EnvVarName"
+        }
+        
+        # 3. Git config local
+        if ([string]::IsNullOrWhiteSpace($value)) {
+            $value = git config --local $GitConfigKey 2>$null
+            if ($value) {
+                Write-Info "Usando git config local: $GitConfigKey"
+            }
+        }
+        
+        # 4. Valor por defecto
+        if ([string]::IsNullOrWhiteSpace($value)) {
+            $value = $DefaultValue
+        }
+        
+        return $value
     }
+
+    # Obtener credenciales con prioridad Key Vault > .env > git config > default
+    $appId = Get-SecureValue `
+        -KeyVaultSecretName "bot-app-id" `
+        -EnvVarName "MICROSOFT_APP_ID" `
+        -GitConfigKey "user.app.id" `
+        -DefaultValue "4c0b49fc-cd97-4772-b859-3e1f6cff69cb"
     
-    $appPassword = if ($env:MICROSOFT_APP_PASSWORD) { 
-        $env:MICROSOFT_APP_PASSWORD 
-    } else { 
-        git config --local user.app.password 
-    }
+    $appPassword = Get-SecureValue `
+        -KeyVaultSecretName "bot-app-password" `
+        -EnvVarName "MICROSOFT_APP_PASSWORD" `
+        -GitConfigKey "user.app.password" `
+        -DefaultValue ""
     
     $subscription = if ($env:AZURE_SUBSCRIPTION_ID) { 
         $env:AZURE_SUBSCRIPTION_ID 
